@@ -1,24 +1,21 @@
-export default function initScrollSuave() {
-  // selecionamos os links internos
-  const linksInternos = document.querySelectorAll('[data-menu="suave"] a[href^="#"]');
+export default class ScrollSuave {
+  constructor(links, options) {
+    this.linksInternos = document.querySelectorAll(links);
+    if (options === undefined) {
+      this.options = { behavior: 'smooth', block: 'start' };
+    } else {
+      this.options = options;
+    }
+    this.scrollToSection = this.scrollToSection.bind(this);
+  }
 
-  function scrollToSection(event) {
-    // previnimos o comportamento padrao
+  scrollToSection(event) {
     event.preventDefault();
-
-    // seleciona o atribut href do elemento clicado, que é igual ao id das seções (#faq por exemplo)
     const href = event.currentTarget.getAttribute('href');
-
-    // seleciona a seção que possui o id igual ao href selecionado
     const section = document.querySelector(href);
+    section.scrollIntoView(this.options);
 
-    // cria um scroll suave ate a seção selecionada
-    section.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
-
-    /* //outra alternativa para fazer uma rolagem suave ate o item quando clicado
+    /* outra alternativa para fazer uma rolagem suave ate o item quando clicado
       const top = section.offsetTop;
       window.scrollTo({
           top: top,
@@ -26,7 +23,16 @@ export default function initScrollSuave() {
       }); */
   }
 
-  linksInternos.forEach((link) => {
-    link.addEventListener('click', scrollToSection);
-  });
+  addLinkEvent() {
+    this.linksInternos.forEach((link) => {
+      link.addEventListener('click', this.scrollToSection);
+    });
+  }
+
+  init() {
+    if (this.linksInternos.length) {
+      this.addLinkEvent();
+    }
+    return this;
+  }
 }
