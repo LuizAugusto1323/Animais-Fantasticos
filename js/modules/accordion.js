@@ -1,25 +1,27 @@
-export default function initAccordion() {
-  //  pegamos todas as dt
-  const accordionList = document.querySelectorAll('[data-anime="accordion"] dt');
-  const activeClass = 'ativo';
-
-  function activeAccordion() {
-    this.classList.toggle(activeClass);
-    //  nextElementSibling seleciona o proximo item direto
-    this.nextElementSibling.classList.toggle(activeClass);
+export default class Accordion {
+  constructor(list) {
+    this.accordionList = document.querySelectorAll(list);
+    this.activeClass = 'ativo';
   }
 
-  //  caso a seleção esteja incorreta nao executa (verificação)
-  if (accordionList.length) {
-  //  adiciona a classe diretamente para que uma fique ativa ao entrar na pagina
-    accordionList[0].classList.add(activeClass);
-    accordionList[0].nextElementSibling.classList.add(activeClass);
-    //  this faz referencia ao proprio item selecionado
+  toggleAccordion(item) {
+    item.classList.toggle(this.activeClass);
+    item.nextElementSibling.classList.toggle(this.activeClass);
+  }
 
-    /* para cada dt que foi selecionado, dicionamos o evento de click que
-    chama a funcao e adiciona a classe */
-    accordionList.forEach((accordion) => {
-      accordion.addEventListener('click', activeAccordion);
+  // adiciona ops eventos ao accordion
+  addAccordionEvent() {
+    this.accordionList.forEach((item) => {
+      item.addEventListener('click', () => this.toggleAccordion(item));
     });
+  }
+
+  // iniciar função
+  init() {
+    if (this.accordionList.length) {
+      // ativar primeiro item
+      this.toggleAccordion(this.accordionList[0]);
+      this.addAccordionEvent();
+    }
   }
 }
