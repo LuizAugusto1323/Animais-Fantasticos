@@ -1,24 +1,40 @@
 import outsideClick from './outsideClick.js';
 
-export default function initDropdownMenu() {
-// selecionamos todos os elementos que teram um sub menu
-  const dropdownMenus = document.querySelectorAll('[data-dropdown]');
-  function handleClick(event) {
-    // previnimos o padrao do evento
+export default class DropdownMenu {
+  constructor(dropdownMenus, events) {
+    this.dropdownMenu = document.querySelectorAll(dropdownMenus);
+    this.activeClass = 'ativo';
+
+    // define click como argumento padrao de events
+    if (events === undefined) this.events = ['click'];
+    else this.events = events;
+    this.activeDropdownMenu = this.activeDropdownMenu.bind(this);
+  }
+
+  // ativa o dropdwon menu e adiciona a funcao que
+  // observa o clique fora dele
+  activeDropdownMenu(event) {
     event.preventDefault();
-    // adicionamos a classe ao menu
-    this.classList.add('ativo');
-    // esta função esta executando uma função dentro dela, a função de callback ativada dentro
-    // do handleOutsideClick, ela simplesmente remove a classe do elemento this, ou seja o menu
-    outsideClick(this, ['touchstart', 'click'], () => {
-      this.classList.remove('ativo');
+    const element = event.currentTarget;
+    element.classList.add(this.activeClass);
+    outsideClick(element, this.events, () => {
+      element.classList.remove(this.activeClass);
     });
   }
-  // para cada dropdownMenus adicionaremos os eventos colocadas em um array e
-  // chamaremos a função mostrardropdownMenus
-  dropdownMenus.forEach((menu) => {
-    ['touchstart', 'click'].forEach((userEvent) => {
-      menu.addEventListener(userEvent, handleClick);
+
+  // adiciona os eventos ao dropdwon menu
+  addDropdownMenusEvent() {
+    this.dropdownMenu.forEach((menu) => {
+      this.events.forEach((userEvent) => {
+        menu.addEventListener(userEvent, this.activeDropdownMenu);
+      });
     });
-  });
+  }
+
+  init() {
+    if (this.dropdownMenu.length) {
+      this.addDropdownMenusEvent();
+    }
+    return this;
+  }
 }
