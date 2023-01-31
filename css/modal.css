@@ -21,7 +21,7 @@
     border: 10px solid #fb5;
     box-shadow: 0 0 0 10px #fff;
     position: relative;
-    min-width: 300px;
+    width: 300px;
 }
 
 @keyframes modal{
@@ -80,4 +80,10 @@
     font-family: "IBM Plex Mono", monospace;
     font-weight: bold;
     margin-top: 1rem;
+}
+
+@media (max-width: 460px){
+    .modal{
+        margin: 0 25px;
+    }
 }
