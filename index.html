@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:700|Playfair+Display+SC" rel="stylesheet">
     <title>Animais Fantasticos</title>
 
     <!-- caso o js esteja desabilitado, para nao bugar o site, adicionamos a classe js na tag html pelo propio javaScript ela permite que o css que muda as caracteristicas seja executado somente se o javaScript tambem for executado -->
@@ -33,7 +34,7 @@
 
                 <li><a href="#faq">Faq</a></li>
                 <li><a href="#contato">Contato</a></li>
-                <li><a data-modal="abrir" href="login.html">Login → </a></li>
+                <li><a data-modal="abrir" href="login.html">Login <span class="arrowBlack"></span> </a></li>
             </ul>
         </nav>
         <section class="grid-section animais" id="animais" data-anime="scroll">
@@ -280,7 +281,7 @@
 
     <section class="modal-container" data-modal="container">
         <div class="modal">
-            <button data-modal="fechar" class="fechar">X</button>
+            <button data-modal="fechar" class="fechar"></button>
             <form action="">
                 <label for="email">E-mail</label>
                 <input type="text" for="email" id="email">
